@@ -11,15 +11,6 @@ import FamilyControls
 @main
 struct ScreenFitApp: App {
     let center = AuthorizationCenter.shared
-    let scheduler = DeviceActivityScheduler()
-    
-    init() {
-        do {
-            try scheduler.startDailyMonitoring()
-        } catch {
-            print("Failed to start daily device activity schedule: \(error)")
-        }
-    }
     
     var body: some Scene {
         WindowGroup {
@@ -31,6 +22,7 @@ struct ScreenFitApp: App {
     private func requestFamilyControlsAuthorisation() {
         Task {
             do {
+                print(center.authorizationStatus.description)
                 try await center.requestAuthorization(for: .individual)
             } catch {
                 print("Failed to request Screen Time authorization: \(error)")

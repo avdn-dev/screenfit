@@ -49,11 +49,21 @@
 			);
 			target = BD2C2AB52D84146D007CD352 /* ScreenTimeMonitor */;
 		};
+		BD2C2ACC2D844BAC007CD352 /* Exceptions for "ScreenFit" folder in "ScreenTimeMonitor" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				ScreenTimeSelectedAppsModel.swift,
+			);
+			target = BD2C2AB52D84146D007CD352 /* ScreenTimeMonitor */;
+		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		BD2C2A982D8410BB007CD352 /* ScreenFit */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				BD2C2ACC2D844BAC007CD352 /* Exceptions for "ScreenFit" folder in "ScreenTimeMonitor" target */,
+			);
 			path = ScreenFit;
 			sourceTree = "<group>";
 		};

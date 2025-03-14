@@ -25,18 +25,18 @@ class ScreenTimeSelectAppsModel {
     }
     
     private func saveSelection(_ selection: FamilyActivitySelection) {
-        let defaults = UserDefaults.standard
+        let defaults = UserDefaults(suiteName: "group.CGC-Studio.ScreenFit.shared-data")
 
-        defaults.set(
+        defaults?.set(
             try? encoder.encode(selection),
             forKey: userDefaultsKey
         )
     }
     
     private func getSavedSelection() -> FamilyActivitySelection? {
-        let defaults = UserDefaults.standard
+        let defaults = UserDefaults(suiteName: "group.CGC-Studio.ScreenFit.shared-data")
 
-        guard let data = defaults.data(forKey: userDefaultsKey) else {
+        guard let data = defaults?.data(forKey: userDefaultsKey) else {
             return nil
         }
         

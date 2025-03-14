@@ -11,6 +11,15 @@ import FamilyControls
 @main
 struct ScreenFitApp: App {
     let center = AuthorizationCenter.shared
+    let scheduler = DeviceActivityScheduler()
+    
+    init() {
+        do {
+            try scheduler.startDailyMonitoring()
+        } catch {
+            print("Failed to start daily device activity schedule: \(error)")
+        }
+    }
     
     var body: some Scene {
         WindowGroup {

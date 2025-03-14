@@ -31,6 +31,8 @@ struct ContentView: View {
             Button("Stop monitoring", action: screenTimeMonitor.stopDailyMonitoring)
             Button("Reset screen time limit") {
                 store.shield.applications = nil
+                store.shield.webDomains = nil
+                store.shield.applicationCategories = nil
             }
         }
         

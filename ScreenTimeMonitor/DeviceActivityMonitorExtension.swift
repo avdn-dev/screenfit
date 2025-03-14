@@ -18,7 +18,11 @@ class DeviceActivityMonitorExtension: DeviceActivityMonitor {
         
         let model = ScreenTimeSelectAppsModel()
         let applications = model.activitySelection.applicationTokens
+        let webDomains = model.activitySelection.webDomainTokens
+        let applicationCategories = model.activitySelection.categoryTokens
         
         store.shield.applications = applications.isEmpty ? nil : applications
+        store.shield.webDomains = webDomains.isEmpty ? nil : webDomains
+        store.shield.applicationCategories = applicationCategories.isEmpty ? nil : .specific(applicationCategories)
     }
 }

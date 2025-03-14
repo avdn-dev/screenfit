@@ -5,17 +5,20 @@
 //  Created by Anh Nguyen on 14/3/2025.
 //
 
+import FamilyControls
 import SwiftUI
 
 struct ContentView: View {
+    @State var selectedApps = FamilyActivitySelection()
+    @State var familyActivityPickerIsPresented: Bool = false
+    
     var body: some View {
         VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+            Button("Select apps") {
+                familyActivityPickerIsPresented = true
+            }
+            .familyActivityPicker(isPresented: $familyActivityPickerIsPresented, selection: $selectedApps)
         }
-        .padding()
     }
 }
 

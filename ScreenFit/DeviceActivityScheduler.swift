@@ -13,7 +13,7 @@ extension DeviceActivityName {
 }
 
 struct DeviceActivityScheduler {
-    let dailySchedule = DeviceActivitySchedule(intervalStart: DateComponents(hour: 0, minute: 0), intervalEnd: DateComponents(hour: 23, minute: 59), repeats: true)
+    let dailySchedule = DeviceActivitySchedule(intervalStart: DateComponents(hour: 0, minute: 0), intervalEnd: DateComponents(hour: 23, minute: 59, second: 59), repeats: true)
     let center = DeviceActivityCenter()
     
     func startDailyMonitoring() throws {

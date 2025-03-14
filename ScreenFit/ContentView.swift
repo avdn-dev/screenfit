@@ -9,7 +9,7 @@ import FamilyControls
 import SwiftUI
 
 struct ContentView: View {
-    @State var selectedApps = FamilyActivitySelection()
+    @State var model = ScreenTimeSelectAppsModel()
     @State var familyActivityPickerIsPresented: Bool = false
     
     var body: some View {
@@ -17,7 +17,7 @@ struct ContentView: View {
             Button("Select apps") {
                 familyActivityPickerIsPresented = true
             }
-            .familyActivityPicker(isPresented: $familyActivityPickerIsPresented, selection: $selectedApps)
+            .familyActivityPicker(isPresented: $familyActivityPickerIsPresented, selection: $model.activitySelection)
         }
     }
 }

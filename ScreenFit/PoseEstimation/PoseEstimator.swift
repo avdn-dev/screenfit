@@ -24,11 +24,13 @@ class PoseEstimator: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
                 // TODO: Add visual confirmation
                 resetScreenTime()
                 squatCount = 0
+                onFinishedExercise()
             }
         }
     }
     var resetScreenTime: (() -> Void)!
     var squatsRequired = 1
+    var onFinishedExercise: (() -> Void)!
     
     func captureOutput(_ output: AVCaptureOutput,
                        didOutput sampleBuffer: CMSampleBuffer,

@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct BlockView: View {
+    @Environment(ScreenTimeBlocker.self) var screenTimeBlocker
+    
     @State var model = ScreenTimeSelectAppsModel()
     @State var familyActivityPickerIsPresented: Bool = false
     @AppStorage("isShowingScreenTimeResetSheet", store: UserDefaults(suiteName: "group.CGC-Studio.ScreenFit.shared-data")) var isShowingScreenTimeResetSheet: Bool = false
@@ -34,7 +36,7 @@ struct BlockView: View {
                     isShowingScreenTimeResetSheet = true
                 }
                 Button("Reset screen time limit easy") {
-//                    resetScreenTimeLimit()
+                    screenTimeBlocker.resetScreenTimeLimit()
                 }
             }
             .navigationTitle("Block")

@@ -12,18 +12,13 @@ import SwiftData
 
 struct ContentView: View {
     @Environment(\.modelContext) var modelContext
+    @Environment(PoseEstimator.self) var poseEstimator
     @AppStorage("isShowingScreenTimeResetSheet", store: UserDefaults(suiteName: "group.CGC-Studio.ScreenFit.shared-data")) var isShowingScreenTimeResetSheet: Bool = false
     @Query var onboardingVersion: [OnboardingVersion]
     @State private var isShowingOnboarding = false
-    @State var poseEstimator = PoseEstimator()
     @State private var selectedTab: Int = 0
     
     let currentOnboardingVersionNumer = "1.0.0"
-    let store = ManagedSettingsStore()
-    
-    init() {
-        poseEstimator.resetScreenTime = resetScreenTimeLimit
-    }
     
     var body: some View {
         TabView(selection: $selectedTab) {
@@ -44,7 +39,6 @@ struct ContentView: View {
         }
         .sheet(isPresented: $isShowingScreenTimeResetSheet) {
             ExercisesView()
-                .environment(poseEstimator)
         }
         .fullScreenCover(isPresented: $isShowingOnboarding) {
             OnboardingOverlay {
@@ -58,15 +52,8 @@ struct ContentView: View {
         }
         .onAppear {
             isShowingOnboarding = shouldShowOnboarding()
+            poseEstimator.onFinishedExercise = hideScreenTimeResetSheet
         }
-    }
-    
-    private func resetScreenTimeLimit() {
-        store.shield.applications = nil
-        store.shield.webDomains = nil
-        store.shield.applicationCategories = nil
-        store.shield.webDomainCategories = nil
-        isShowingScreenTimeResetSheet = false
     }
     
     private func shouldShowOnboarding() -> Bool {
@@ -78,6 +65,10 @@ struct ContentView: View {
         } else {
             return true
         }
+    }
+    
+    private func hideScreenTimeResetSheet() {
+        isShowingScreenTimeResetSheet = false
     }
 }
 

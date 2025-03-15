@@ -29,7 +29,6 @@ struct NavigationStackWithMeshGradientBackground<Content: View>: View {
                 
                 content
                 .navigationTitle(navigationTitle)
-                .toolbarTitleDisplayMode(.inlineLarge)
                 .toolbarBackground(.regularMaterial, for: .navigationBar)
                 .toolbarBackground(.visible, for: .navigationBar)
             }

@@ -34,6 +34,11 @@ struct ContentView: View {
                     .tabItem {
                         Label("Stats", systemImage: selectedTab == 1 ? "chart.bar.fill" : "chart.bar")
                     }
+                SettingsView()
+                    .tag(2)
+                    .tabItem {
+                        Label("Stats", systemImage: selectedTab == 1 ? "gearshape.fill" : "gearshape")
+                    }
             }
             .toolbarBackground(.regularMaterial, for: .tabBar)
             .toolbarBackground(.visible, for: .tabBar)

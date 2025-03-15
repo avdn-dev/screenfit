@@ -22,7 +22,7 @@ struct ScreenFitApp: App {
         #if DEBUG
         let configuration = ModelConfiguration(
             for: OnboardingVersion.self,
-            isStoredInMemoryOnly: true
+            isStoredInMemoryOnly: false
         )
         #else
         let configuration = ModelConfiguration(

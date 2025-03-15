@@ -10,39 +10,32 @@ import SwiftUI
 import ManagedSettings
 
 struct ContentView: View {
-    @State var model = ScreenTimeSelectAppsModel()
-    @State var familyActivityPickerIsPresented: Bool = false
     @AppStorage("isShowingScreenTimeResetSheet", store: UserDefaults(suiteName: "group.CGC-Studio.ScreenFit.shared-data")) var isShowingScreenTimeResetSheet: Bool = false
     @State var poseEstimator = PoseEstimator()
+    @State private var selectedTab: Int = 0
     
     let store = ManagedSettingsStore()
-    let screenTimeMonitor = ScreenTimeMonitor()
     
     init() {
         poseEstimator.resetScreenTime = resetScreenTimeLimit
     }
     
     var body: some View {
-        
-        VStack {
-            Button("Select apps") {
-                familyActivityPickerIsPresented = true
-            }
-            .familyActivityPicker(isPresented: $familyActivityPickerIsPresented, selection: $model.activitySelection)
-            Button("Start monitoring") {
-                do {
-                    try screenTimeMonitor.startDailyMonitoring(of: model.activitySelection, timeLimit: DateComponents(second: 2))
-                } catch {
-                    print("Failed to start daily device activity monitoring: \(error)")
+        TabView(selection: $selectedTab) {
+            Group {
+                BlockView()
+                .tag(0)
+                .tabItem {
+                    Label("Block", systemImage: selectedTab == 0 ? "lock.fill" : "lock")
+                }
+                Text("Placeholder")
+                .tag(1)
+                .tabItem {
+                    Label("Stats", systemImage: selectedTab == 1 ? "chart.bar.fill" : "chart.bar")
                 }
             }
-            Button("Stop monitoring", action: screenTimeMonitor.stopDailyMonitoring)
-            Button("Reset screen time limit") {
-                isShowingScreenTimeResetSheet = true
-            }
-            Button("Reset screen time limit easy") {
-                resetScreenTimeLimit()
-            }
+            .toolbarBackground(.white, for: .tabBar)
+            .toolbarBackground(.visible, for: .tabBar)
         }
         .sheet(isPresented: $isShowingScreenTimeResetSheet) {
             ExercisesView()

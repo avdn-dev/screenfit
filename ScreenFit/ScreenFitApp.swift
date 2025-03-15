@@ -10,23 +10,12 @@ import FamilyControls
 
 @main
 struct ScreenFitApp: App {
-    let center = AuthorizationCenter.shared
+    @State var permissionsService = PermissionsService()
     
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .onAppear(perform: requestFamilyControlsAuthorisation)
-        }
-    }
-    
-    private func requestFamilyControlsAuthorisation() {
-        Task {
-            do {
-                print(center.authorizationStatus.description)
-                try await center.requestAuthorization(for: .individual)
-            } catch {
-                print("Failed to request Screen Time authorization: \(error)")
-            }
+                .environment(permissionsService)
         }
     }
 }

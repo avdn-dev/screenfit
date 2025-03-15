@@ -32,25 +32,18 @@ class DeviceActivityMonitorExtension: DeviceActivityMonitor {
     }
     
     private func triggerNotification() {
-        let center = UNUserNotificationCenter.current()
-        center.requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
-            if granted {
-                let content = UNMutableNotificationContent()
-                content.title = "App locked"
-                content.body = "Screen time limit reached. Press or open ScreenFit to unlock app."
-                content.sound = UNNotificationSound.default
-                
-                // Trigger immediately
-                let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 0.1, repeats: false)
-                let request = UNNotificationRequest(identifier: "Notification", content: content, trigger: trigger)
-                
-                center.add(request) { error in
-                    if let error {
-                        print("Failed to schedule notification: \(error)")
-                    }
-                }
-            } else {
-                print("Failed to schedule notification: notification permissions denied")
+        let content = UNMutableNotificationContent()
+        content.title = "App locked"
+        content.body = "Screen time limit reached. Press or open ScreenFit to unlock app."
+        content.sound = UNNotificationSound.default
+        
+        // Trigger with small delay
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
+        let request = UNNotificationRequest(identifier: "Notification", content: content, trigger: trigger)
+        
+        UNUserNotificationCenter.current().add(request) { error in
+            if let error {
+                print("Failed to schedule notification: \(error)")
             }
         }
     }

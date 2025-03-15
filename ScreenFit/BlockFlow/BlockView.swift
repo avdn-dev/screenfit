@@ -16,6 +16,7 @@ struct BlockView: View {
     
     var body: some View {
         NavigationStack {
+            EmptyBlockView()
             VStack {
                 Button("Select apps") {
                     familyActivityPickerIsPresented = true

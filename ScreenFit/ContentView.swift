@@ -28,7 +28,7 @@ struct ContentView: View {
                 .tabItem {
                     Label("Block", systemImage: selectedTab == 0 ? "lock.fill" : "lock")
                 }
-                Text("Placeholder")
+                StatsView()
                 .tag(1)
                 .tabItem {
                     Label("Stats", systemImage: selectedTab == 1 ? "chart.bar.fill" : "chart.bar")

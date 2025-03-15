@@ -17,7 +17,7 @@ class PoseEstimator: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
             exerciseManager.checkForRepetition(bodyParts: bodyParts)
         }
     }
-
+    
     var exerciseManager: ExerciseManager
     
     init(exerciseManager: ExerciseManager) {
@@ -45,17 +45,16 @@ class PoseEstimator: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
         }
         
         guard var bodyParts = try? bodyPoseResults.first?.recognizedPoints(.all) else {
+            self.bodyParts = [:]
             return
         }
         
         bodyParts = bodyParts.filter{ _, bodyPart in
             // //TODO: Investigate if both coordinates are necessary, benchmarking performance
-//            bodyPart.location.y != 1
+            //            bodyPart.location.y != 1
             bodyPart.location.x != 0 && bodyPart.confidence > 0.1 // TODO: Tune the confidence required
         }
         
-        DispatchQueue.main.async {
-            self.bodyParts = bodyParts
-        }
+        self.bodyParts = bodyParts
     }
 }

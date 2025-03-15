@@ -17,27 +17,24 @@ struct ContentView: View {
     @AppStorage("isShowingScreenTimeResetSheet", store: UserDefaults(suiteName: "group.CGC-Studio.ScreenFit.shared-data")) var isShowingScreenTimeResetSheet: Bool = false
     @Query var onboardingVersion: [OnboardingVersion]
     @State private var isShowingOnboarding = false
-    @State private var selectedTab: Int = 0
     
     let currentOnboardingVersionNumer = "1.0.0"
     
     var body: some View {
-        TabView(selection: $selectedTab) {
+        TabView {
             Group {
+                // TODO: Adopt UIKit to allow the label icons to change with state
                 BlockView()
-                    .tag(0)
                     .tabItem {
-                        Label("Block", systemImage: selectedTab == 0 ? "lock.fill" : "lock")
+                        Label("Block", systemImage: "lock.iphone")
                     }
                 StatsView()
-                    .tag(1)
                     .tabItem {
-                        Label("Stats", systemImage: selectedTab == 1 ? "chart.bar.fill" : "chart.bar")
+                        Label("Stats", systemImage: "chart.bar.fill")
                     }
                 SettingsView()
-                    .tag(2)
                     .tabItem {
-                        Label("Stats", systemImage: selectedTab == 1 ? "gearshape.fill" : "gearshape")
+                        Label("Settings", systemImage: "gearshape.fill")
                     }
             }
             .toolbarBackground(.regularMaterial, for: .tabBar)

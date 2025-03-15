@@ -9,6 +9,6 @@ import Foundation
 
 @Observable
 public class MeshGradientModel {
-    var colors = MeshGradientGenerator.generateColors()
+    var colors = MeshGradientGenerator.generateColors(withDarkening: 0.4)
     let points: [SIMD2<Float>] = MeshGradientGenerator.generatePoints()
 }

@@ -65,6 +65,7 @@ struct ContentView: View {
         store.shield.applications = nil
         store.shield.webDomains = nil
         store.shield.applicationCategories = nil
+        store.shield.webDomainCategories = nil
         isShowingScreenTimeResetSheet = false
     }
 }

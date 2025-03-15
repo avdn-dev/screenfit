@@ -39,6 +39,19 @@ struct BlockView: View {
                     screenTimeBlocker.resetScreenTimeLimit()
                 }
             }
+            .toolbar {
+                ToolbarItem(placement: .primaryAction) {
+                    Button {
+                        
+                    } label: {
+                        Image(systemName: "person.crop.circle")
+                            .font(.title)
+                            .offset(y: 10)
+                    }
+
+                }
+            }
+            .toolbarTitleDisplayMode(.inlineLarge)
             .navigationTitle("Block")
         }
     }

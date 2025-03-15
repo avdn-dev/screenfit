@@ -9,17 +9,23 @@ import SwiftUI
 
 struct PoseEstimatedExerciseView: View {
     @Environment(PoseEstimator.self) var poseEstimator
+    @State var iShowingSkeleton: Bool = false
+    
     let exercise: Exercise
     
     var body: some View {
         VStack {
+            Toggle(isOn: $iShowingSkeleton) {
+                Text("Display body skeleton")
+            }
+            
             ZStack {
                 GeometryReader { geo in
                     CameraViewWrapper(poseEstimator: poseEstimator)
                     SkeletonView(poseEstimator: poseEstimator, size: geo.size)
+                        .opacity(iShowingSkeleton ? 1 : 0)
                 }
             }
-            .frame(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.width * 1920 / 1080, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
             HStack {
                 Text("Squat counter:")
                     .font(.title)

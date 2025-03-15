@@ -12,9 +12,10 @@ import FamilyControls
 @main
 struct ScreenFitApp: App {
     @State var permissionsService = PermissionsService()
-    @State var poseEstimator = PoseEstimator()
+    @State var poseEstimator: PoseEstimator
     @State var screenTimeBlocker = ScreenTimeBlocker()
     @State var meshGradientModel = MeshGradientModel()
+    @State var exerciseManager: ExerciseManager
     
     let container: ModelContainer
     
@@ -35,7 +36,10 @@ struct ScreenFitApp: App {
             configurations: configuration
         )
         
-        poseEstimator.resetScreenTime = screenTimeBlocker.resetScreenTimeLimit
+        let exerciseManager = ExerciseManager()
+        _exerciseManager = State(initialValue: exerciseManager)
+        _poseEstimator = State(initialValue: PoseEstimator(exerciseManager: exerciseManager))
+        exerciseManager.resetScreenTime = screenTimeBlocker.resetScreenTimeLimit
     }
     
     var body: some Scene {
@@ -45,6 +49,7 @@ struct ScreenFitApp: App {
                 .environment(poseEstimator)
                 .environment(screenTimeBlocker)
                 .environment(meshGradientModel)
+                .environment(exerciseManager)
                 .modelContainer(container)
                 .preferredColorScheme(.dark)
         }

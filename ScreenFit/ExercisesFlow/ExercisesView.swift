@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ExercisesView: View {
     @Environment(PoseEstimator.self) var poseEstimator
+    @Environment(ExerciseManager.self) var exerciseManager
     @Environment(\.dismiss) var dismiss
     
     var body: some View {
@@ -24,6 +25,7 @@ struct ExercisesView: View {
                         } label: {
                             HStack {
                                 exercise.image
+                                    .frame(width: 25)
                                 
                                 Text(exercise.rawValue)
                             }
@@ -49,6 +51,7 @@ struct ExercisesView: View {
 
 #Preview {
     ExercisesView()
-        .environment(PoseEstimator())
+        .environment(MeshGradientModel())
+        .environment(PoseEstimator(exerciseManager: ExerciseManager()))
         .preferredColorScheme(.dark)
 }

@@ -14,6 +14,7 @@ struct ContentView: View {
     @Environment(MeshGradientModel.self) var meshGradientModel
     @Environment(\.modelContext) var modelContext
     @Environment(PoseEstimator.self) var poseEstimator
+    @Environment(ExerciseManager.self) var exerciseManager
     @AppStorage("isShowingScreenTimeResetSheet", store: UserDefaults(suiteName: "group.CGC-Studio.ScreenFit.shared-data")) var isShowingScreenTimeResetSheet: Bool = false
     @Query var onboardingVersion: [OnboardingVersion]
     @State private var isShowingOnboarding = false
@@ -56,7 +57,7 @@ struct ContentView: View {
         }
         .onAppear {
             isShowingOnboarding = shouldShowOnboarding()
-            poseEstimator.onFinishedExercise = hideScreenTimeResetSheet
+            exerciseManager.onFinishedExercise = hideScreenTimeResetSheet
             startMeshGradientAnimation()
         }
     }
@@ -96,11 +97,14 @@ struct ContentView: View {
         configurations: configuration
     )
     
+    let exerciseManager = ExerciseManager()
+    
     ContentView()
-        .environment(PoseEstimator())
+        .environment(PoseEstimator(exerciseManager: exerciseManager))
         .environment(ScreenTimeBlocker())
         .environment(PermissionsService())
         .environment(MeshGradientModel())
+        .environment(exerciseManager)
         .modelContainer(container)
         .preferredColorScheme(.dark)
 }

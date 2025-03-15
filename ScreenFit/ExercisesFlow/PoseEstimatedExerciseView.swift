@@ -9,6 +9,7 @@ import SwiftUI
 
 struct PoseEstimatedExerciseView: View {
     @Environment(PoseEstimator.self) var poseEstimator
+    @Environment(ExerciseManager.self) var exerciseManager
     @State var iShowingSkeleton: Bool = false
     
     let exercise: Exercise
@@ -29,11 +30,14 @@ struct PoseEstimatedExerciseView: View {
             HStack {
                 Text("Squat counter:")
                     .font(.title)
-                Text(String(poseEstimator.squatCount))
+                Text(String(exerciseManager.exerciseReps[exercise] ?? 0))
                     .font(.title)
             }
         }
         .navigationTitle(exercise.rawValue)
+        .onAppear {
+            exerciseManager.selectedExercise = exercise
+        }
     }
 }
 

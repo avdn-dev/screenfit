@@ -12,25 +12,17 @@ import Vision
 class PoseEstimator: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
     let sequenceHandler = VNSequenceRequestHandler()
     
-    var wasInBottomPosition = false
     var bodyParts = [VNHumanBodyPoseObservation.JointName : VNRecognizedPoint]() {
         didSet {
-            countSquats(bodyParts: bodyParts)
+            exerciseManager.checkForRepetition(bodyParts: bodyParts)
         }
     }
-    var squatCount = 0 {
-        didSet {
-            if squatCount == squatsRequired {
-                // TODO: Add visual confirmation
-                resetScreenTime()
-                squatCount = 0
-                onFinishedExercise()
-            }
-        }
+
+    var exerciseManager: ExerciseManager
+    
+    init(exerciseManager: ExerciseManager) {
+        self.exerciseManager = exerciseManager
     }
-    var resetScreenTime: (() -> Void)!
-    var squatsRequired = 1
-    var onFinishedExercise: (() -> Void)!
     
     func captureOutput(_ output: AVCaptureOutput,
                        didOutput sampleBuffer: CMSampleBuffer,
@@ -64,33 +56,6 @@ class PoseEstimator: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
         
         DispatchQueue.main.async {
             self.bodyParts = bodyParts
-        }
-    }
-    
-    func countSquats(bodyParts: [VNHumanBodyPoseObservation.JointName : VNRecognizedPoint]) {
-        // TODO: Add logic to include left side later
-        guard let rightKnee = bodyParts[.rightKnee]?.location,
-              let rightHip = bodyParts[.rightHip]?.location,
-              let rightAnkle = bodyParts[.rightAnkle]?.location else {
-            return
-        }
-        
-        let firstAngle = atan2(rightHip.y - rightKnee.y, rightHip.x - rightKnee.x)
-        let secondAngle = atan2(rightAnkle.y - rightKnee.y, rightAnkle.x - rightKnee.x)
-        var angleDiffRadians = firstAngle - secondAngle
-        while angleDiffRadians < 0 {
-                    angleDiffRadians += CGFloat(2 * Double.pi)
-                }
-        let angleDiffDegrees = Int(angleDiffRadians * 180 / .pi)
-        if angleDiffDegrees > 150 && self.wasInBottomPosition {
-            self.squatCount += 1
-            self.wasInBottomPosition = false
-        }
-        
-        let hipHeight = rightHip.y
-        let kneeHeight = rightKnee.y
-        if hipHeight < kneeHeight {
-            self.wasInBottomPosition = true
         }
     }
 }

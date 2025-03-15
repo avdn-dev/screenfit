@@ -6,11 +6,12 @@
 //
 
 import Foundation
+import SwiftUI
 
 struct OnboardingItem: Identifiable {
     let id = UUID()
     let tag: Int
-    let image: String
+    let image: Image
     let title: String
     let body: String
     let buttonLabel: String

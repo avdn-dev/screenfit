@@ -36,13 +36,13 @@ struct OnboardingOverlay: View {
                 .offset(y: -geometry.size.height / 4)
                 
                 TabView(selection: $selectedView) {
-                    OnboardingView(item: OnboardingItem(tag: 0, image: "", title: "ScreenFit", body: "ScreenFit allows you to set screen time limits, and forces you to exercise to unblock apps that have reached their limits.", buttonLabel: "Get started"), onboardingButtonPressed: { withAnimation { selectedView += 1} }).tag(0)
+                    OnboardingView(item: OnboardingItem(tag: 0, image: Image("ScreenFitCutOut"), title: "ScreenFit", body: "ScreenFit allows you to set screen time limits, and forces you to exercise to unblock apps that have reached their limits.", buttonLabel: "Get started"), onboardingButtonPressed: { withAnimation { selectedView += 1} }).tag(0)
                     
-                    OnboardingView(item: OnboardingItem(tag: 1, image: "", title: "Screen Time", body: "ScreenFit requires the Screen Time API to set and monitor screen time limits.", buttonLabel: "Grant permissions"), onboardingButtonPressed: requestScreenTimePermission).tag(1)
+                    OnboardingView(item: OnboardingItem(tag: 1, image: Image(.iphoneBadgeClock), title: "Screen Time", body: "ScreenFit requires the Screen Time API to set and monitor screen time limits.", buttonLabel: "Grant permissions"), onboardingButtonPressed: requestScreenTimePermission).tag(1)
                     
-                    OnboardingView(item: OnboardingItem(tag: 2, image: "", title: "Notifications", body: "ScreenFit uses a notification for quick access unblocking an app that has reached its screen time limit.", buttonLabel: "Grant permissions"), onboardingButtonPressed: requestNotificationPermission).tag(2)
+                    OnboardingView(item: OnboardingItem(tag: 2, image: Image(.iphoneBadge), title: "Notifications", body: "ScreenFit uses a notification for quick access when unblocking an app that has reached its screen time limit.", buttonLabel: "Grant permissions"), onboardingButtonPressed: requestNotificationPermission).tag(2)
                     
-                    OnboardingView(item: OnboardingItem(tag: 3, image: "", title: "Ready to Go!", body: "ScreenFit has defaults for screen time limits and exercise tracking that you can configure further if you'd like.", buttonLabel: "Begin"), onboardingButtonPressed: dismissOnboarding).tag(3)
+                    OnboardingView(item: OnboardingItem(tag: 3, image: Image(.figureRunBadgeSparkles), title: "Ready to Go!", body: "ScreenFit has defaults for screen time limits and exercise tracking that you can configure further if you'd like.", buttonLabel: "Begin"), onboardingButtonPressed: dismissOnboarding).tag(3)
                 }
             }
         }
@@ -54,7 +54,7 @@ struct OnboardingOverlay: View {
                 openedSettings = false
             }
         }
-        .background()
+        .background(.darkGrey)
         .onAppear(perform: startMeshGradientAnimation)
     }
     

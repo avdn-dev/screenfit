@@ -13,7 +13,7 @@ struct OnboardingView: View {
     
     var body: some View {
         VStack(alignment: .center, spacing: 20) {
-            Image(decorative: item.image)
+            item.image
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(maxHeight: 400)

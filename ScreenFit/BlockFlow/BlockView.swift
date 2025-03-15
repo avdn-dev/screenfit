@@ -17,9 +17,10 @@ struct BlockView: View {
     let screenTimeMonitor = ScreenTimeMonitor()
     
     var body: some View {
-        NavigationStack {
-            EmptyBlockView()
+        NavigationStackWithMeshGradientBackground(navigationTitle: "Block") {
+            
             VStack {
+                EmptyBlockView()
                 Button("Select apps") {
                     familyActivityPickerIsPresented = true
                 }
@@ -48,11 +49,8 @@ struct BlockView: View {
                             .font(.title)
                             .offset(y: 10)
                     }
-
                 }
             }
-            .toolbarTitleDisplayMode(.inlineLarge)
-            .navigationTitle("Block")
         }
     }
 }
@@ -60,4 +58,5 @@ struct BlockView: View {
 #Preview {
     BlockView()
         .environment(ScreenTimeBlocker())
+        .preferredColorScheme(.dark)
 }

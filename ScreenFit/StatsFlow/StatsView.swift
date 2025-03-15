@@ -9,13 +9,13 @@ import SwiftUI
 
 struct StatsView: View {
     var body: some View {
-        NavigationStack {
+        NavigationStackWithMeshGradientBackground(navigationTitle: "Stats") {
             Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-                .navigationTitle("Stats")
         }
     }
 }
 
 #Preview {
     StatsView()
+        .preferredColorScheme(.dark)
 }

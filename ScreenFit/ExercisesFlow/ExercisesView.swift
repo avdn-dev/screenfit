@@ -44,4 +44,5 @@ struct ExercisesView: View {
 
 #Preview {
     ExercisesView()
+        .preferredColorScheme(.dark)
 }

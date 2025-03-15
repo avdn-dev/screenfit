@@ -39,4 +39,5 @@ struct PoseEstimatedExerciseView: View {
 
 #Preview {
     PoseEstimatedExerciseView(exercise: .squat)
+        .preferredColorScheme(.dark)
 }

@@ -14,7 +14,7 @@ struct OnboardingOverlay: View {
     @State private var lastOnboardingScreen = 3
     @State private var openedSettings = false
     let points: [SIMD2<Float>] = MeshGradientGenerator.generatePoints()
-    @State var colors = MeshGradientGenerator.generateColors(color1: .purple, color2: .pink, color3: .orange)
+    @State var colors = MeshGradientGenerator.generateColors()
     
     let dismissOnboardingView: () -> Void
     
@@ -53,13 +53,14 @@ struct OnboardingOverlay: View {
                 openedSettings = false
             }
         }
+        .background()
         .onAppear(perform: startMeshGradientAnimation)
     }
     
     private func startMeshGradientAnimation() {
         Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
             withAnimation(.easeInOut(duration: 2.0)) {
-                colors = MeshGradientGenerator.generateColors(color1: .purple, color2: .pink, color3: .orange)
+                colors = MeshGradientGenerator.generateColors()
             }
         }
     }
@@ -94,4 +95,5 @@ struct OnboardingOverlay: View {
 #Preview {
     OnboardingOverlay(dismissOnboardingView: {})
         .environment(PermissionsService())
+        .preferredColorScheme(.dark)
 }

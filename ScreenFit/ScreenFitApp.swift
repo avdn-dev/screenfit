@@ -44,6 +44,7 @@ struct ScreenFitApp: App {
                 .environment(poseEstimator)
                 .environment(screenTimeBlocker)
                 .modelContainer(container)
+                .preferredColorScheme(.dark)
         }
     }
 }

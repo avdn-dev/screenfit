@@ -24,17 +24,17 @@ struct ContentView: View {
         TabView(selection: $selectedTab) {
             Group {
                 BlockView()
-                .tag(0)
-                .tabItem {
-                    Label("Block", systemImage: selectedTab == 0 ? "lock.fill" : "lock")
-                }
+                    .tag(0)
+                    .tabItem {
+                        Label("Block", systemImage: selectedTab == 0 ? "lock.fill" : "lock")
+                    }
                 StatsView()
-                .tag(1)
-                .tabItem {
-                    Label("Stats", systemImage: selectedTab == 1 ? "chart.bar.fill" : "chart.bar")
-                }
+                    .tag(1)
+                    .tabItem {
+                        Label("Stats", systemImage: selectedTab == 1 ? "chart.bar.fill" : "chart.bar")
+                    }
             }
-            .toolbarBackground(.white, for: .tabBar)
+            .toolbarBackground(.regularMaterial, for: .tabBar)
             .toolbarBackground(.visible, for: .tabBar)
         }
         .sheet(isPresented: $isShowingScreenTimeResetSheet) {
@@ -57,6 +57,7 @@ struct ContentView: View {
     }
     
     private func shouldShowOnboarding() -> Bool {
+        return false
         // Onboarding versions stored in descending order
         if let onboarding = onboardingVersion.first,
            currentOnboardingVersionNumer == onboarding.versionNumber {
@@ -88,4 +89,5 @@ struct ContentView: View {
         .environment(ScreenTimeBlocker())
         .environment(PermissionsService())
         .modelContainer(container)
+        .preferredColorScheme(.dark)
 }

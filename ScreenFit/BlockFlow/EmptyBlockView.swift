@@ -30,4 +30,5 @@ struct EmptyBlockView: View {
 
 #Preview {
     EmptyBlockView()
+        .preferredColorScheme(.dark)
 }

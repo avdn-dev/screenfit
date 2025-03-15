@@ -41,24 +41,20 @@ struct MeshGradientGenerator {
         return points
     }
     
-    static func generateColors(
-        color1: Color,
-        color2: Color,
-        color3: Color
-    ) -> [Color] {
+    static func generateColors(withDarkening darkeningFactor: Double = 0) -> [Color] {
         // Distribute the three colors across the 9 points with 3 points for each
         var colors: [Color] = []
         
         for _ in 0..<3 {
-            colors.append(color1)
+            colors.append(.purple.mix(with: .black, by: darkeningFactor))
         }
         
         for _ in 0..<3 {
-            colors.append(color2)
+            colors.append(.pink.mix(with: .black, by: darkeningFactor))
         }
         
         for _ in 0..<3 {
-            colors.append(color3)
+            colors.append(.orange.mix(with: .black, by: darkeningFactor))
         }
         
         return colors.shuffled()

@@ -17,6 +17,7 @@ struct OnboardingOverlay: View {
     @State var colors = MeshGradientGenerator.generateColors()
     
     let dismissOnboardingView: () -> Void
+    @State var timer: Timer?
     
     init(dismissOnboardingView: @escaping () -> Void) {
         self.dismissOnboardingView = dismissOnboardingView
@@ -58,7 +59,7 @@ struct OnboardingOverlay: View {
     }
     
     private func startMeshGradientAnimation() {
-        Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
+        timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
             withAnimation(.easeInOut(duration: 2.0)) {
                 colors = MeshGradientGenerator.generateColors()
             }
@@ -82,6 +83,7 @@ struct OnboardingOverlay: View {
     }
     
     func dismissOnboarding() {
+        timer?.invalidate()
         dismissOnboardingView()
         
         // Reset selectedView for the next time onboarding screen is opened after slight delay to hide change

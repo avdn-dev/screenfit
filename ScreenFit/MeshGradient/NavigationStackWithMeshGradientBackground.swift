@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct NavigationStackWithMeshGradientBackground<Content: View>: View {
-    @State var colors = MeshGradientGenerator.generateColors(withDarkening: 0.2)
-    let points: [SIMD2<Float>] = MeshGradientGenerator.generatePoints()
+    @Environment(MeshGradientModel.self) var meshGradientModel
+    
     let navigationTitle: String
     let content: Content
     
@@ -23,11 +23,9 @@ struct NavigationStackWithMeshGradientBackground<Content: View>: View {
             ZStack {
                 MeshGradient(width: 3,
                              height: 3,
-                             points: points,
-                             colors: colors)
+                             points: meshGradientModel.points,
+                             colors: meshGradientModel.colors)
                 .ignoresSafeArea()
-                .overlay(Color.black.opacity(0.3))
-                .onAppear(perform: startMeshGradientAnimation)
                 
                 content
                 .navigationTitle(navigationTitle)
@@ -37,19 +35,12 @@ struct NavigationStackWithMeshGradientBackground<Content: View>: View {
             }
         }
     }
-    
-    private func startMeshGradientAnimation() {
-        Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
-            withAnimation(.easeInOut(duration: 2.0)) {
-                colors = MeshGradientGenerator.generateColors(withDarkening: 0.2)
-            }
-        }
-    }
 }
 
 #Preview {
     NavigationStackWithMeshGradientBackground(navigationTitle: "Preview") {
         Text("Preview")
     }
+    .environment(MeshGradientModel())
     .preferredColorScheme(.dark)
 }

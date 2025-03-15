@@ -18,7 +18,6 @@ struct BlockView: View {
     
     var body: some View {
         NavigationStackWithMeshGradientBackground(navigationTitle: "Block") {
-            
             VStack {
                 EmptyBlockView()
                 Button("Select apps") {

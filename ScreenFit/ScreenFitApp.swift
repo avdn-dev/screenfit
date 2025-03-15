@@ -14,6 +14,7 @@ struct ScreenFitApp: App {
     @State var permissionsService = PermissionsService()
     @State var poseEstimator = PoseEstimator()
     @State var screenTimeBlocker = ScreenTimeBlocker()
+    @State var meshGradientModel = MeshGradientModel()
     
     let container: ModelContainer
     
@@ -43,6 +44,7 @@ struct ScreenFitApp: App {
                 .environment(permissionsService)
                 .environment(poseEstimator)
                 .environment(screenTimeBlocker)
+                .environment(meshGradientModel)
                 .modelContainer(container)
                 .preferredColorScheme(.dark)
         }

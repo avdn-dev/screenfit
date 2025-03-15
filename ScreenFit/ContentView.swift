@@ -36,6 +36,7 @@ struct ContentView: View {
             }
             .toolbarBackground(.regularMaterial, for: .tabBar)
             .toolbarBackground(.visible, for: .tabBar)
+            .toolbarColorScheme(.dark, for: .tabBar)
         }
         .sheet(isPresented: $isShowingScreenTimeResetSheet) {
             ExercisesView()

@@ -45,16 +45,20 @@ struct MeshGradientGenerator {
         // Distribute the three colors across the 9 points with 3 points for each
         var colors: [Color] = []
         
+        let purple = Color.purple.mix(with: .black, by: darkeningFactor)
+        let pink = Color.pink.mix(with: .black, by: darkeningFactor)
+        let orange = Color.orange.mix(with: .black, by: darkeningFactor)
+        
         for _ in 0..<3 {
-            colors.append(.purple.mix(with: .black, by: darkeningFactor))
+            colors.append(purple)
         }
         
         for _ in 0..<3 {
-            colors.append(.pink.mix(with: .black, by: darkeningFactor))
+            colors.append(pink)
         }
         
         for _ in 0..<3 {
-            colors.append(.orange.mix(with: .black, by: darkeningFactor))
+            colors.append(orange)
         }
         
         return colors.shuffled()

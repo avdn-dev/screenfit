@@ -12,7 +12,7 @@ import ManagedSettings
 struct ContentView: View {
     @State var model = ScreenTimeSelectAppsModel()
     @State var familyActivityPickerIsPresented: Bool = false
-    @State var isShowingScreenTimeResetSheet: Bool = false
+    @AppStorage("isShowingScreenTimeResetSheet", store: UserDefaults(suiteName: "group.CGC-Studio.ScreenFit.shared-data")) var isShowingScreenTimeResetSheet: Bool = false
     @State var poseEstimator = PoseEstimator()
     
     let store = ManagedSettingsStore()

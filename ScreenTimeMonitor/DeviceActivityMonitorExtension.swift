@@ -28,6 +28,7 @@ class DeviceActivityMonitorExtension: DeviceActivityMonitor {
         store.shield.webDomainCategories = categories.isEmpty ? nil : .specific(categories)
         
         triggerNotification()
+        UserDefaults(suiteName: "group.CGC-Studio.ScreenFit.shared-data")?.set(true, forKey: "isShowingScreenTimeResetSheet")
     }
     
     private func triggerNotification() {

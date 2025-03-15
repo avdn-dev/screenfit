@@ -35,9 +35,6 @@ struct BlockView: View {
                 Button("Reset screen time limit") {
                     isShowingScreenTimeResetSheet = true
                 }
-                Button("Reset screen time limit easy") {
-                    screenTimeBlocker.resetScreenTimeLimit()
-                }
             }
         }
     }

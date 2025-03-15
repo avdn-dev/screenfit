@@ -20,6 +20,12 @@ struct PoseEstimatedExerciseView: View {
                 Text("Display body skeleton")
             }
             
+            HStack {
+                ProgressView("\(exerciseManager.selectedExercise.rawValue) progress: \(exerciseManager.selectedExerciseReps)/\(exerciseManager.selectedExerciseTarget)", value: exerciseManager.currentProgress)
+                    .exerciseStyle(value: exerciseManager.currentProgress, caption: "\(exerciseManager.selectedExercise.rawValue) progress: \(exerciseManager.selectedExerciseReps)/\(exerciseManager.selectedExerciseTarget)", symbol: exercise.image)
+            }
+            .padding(.bottom)
+            
             ZStack {
                 GeometryReader { geo in
                     CameraViewWrapper(poseEstimator: poseEstimator)
@@ -27,17 +33,18 @@ struct PoseEstimatedExerciseView: View {
                         .opacity(iShowingSkeleton ? 1 : 0)
                 }
             }
-            HStack {
-                Text("Squat counter:")
-                    .font(.title)
-                Text(String(exerciseManager.exerciseReps[exercise] ?? 0))
-                    .font(.title)
-            }
+            .clipShape(
+                RoundedRectangle(
+                    cornerRadius: 15,
+                    style: .continuous
+                )
+            )
         }
         .navigationTitle(exercise.rawValue)
         .onAppear {
             exerciseManager.selectedExercise = exercise
         }
+        .padding(.horizontal)
     }
 }
 

@@ -18,29 +18,29 @@ struct SkeletonView: View {
                 Skeleton(points: [poseEstimator.bodyParts[.rightAnkle]?.location, poseEstimator.bodyParts[.rightKnee]?.location, poseEstimator.bodyParts[.rightHip]?.location,
                                   poseEstimator.bodyParts[.root]?.location].compactMap { $0 }, size: size)
                 .stroke(lineWidth: 5.0)
-                .fill(Color.green)
+                .fill(.accent)
                 
                 // Left leg
                 Skeleton(points: [poseEstimator.bodyParts[.leftAnkle]?.location, poseEstimator.bodyParts[.leftKnee]?.location, poseEstimator.bodyParts[.leftHip]?.location,
                                   poseEstimator.bodyParts[.root]?.location].compactMap { $0 }, size: size)
                 .stroke(lineWidth: 5.0)
-                .fill(Color.green)
+                .fill(.accent)
                 
                 // Right arm
                 Skeleton(points: [poseEstimator.bodyParts[.rightWrist]?.location, poseEstimator.bodyParts[.rightElbow]?.location, poseEstimator.bodyParts[.rightShoulder]?.location, poseEstimator.bodyParts[.neck]?.location].compactMap { $0 }, size: size)
                     .stroke(lineWidth: 5.0)
-                    .fill(Color.green)
+                    .fill(.accent)
                 
                 // Left arm
                 Skeleton(points: [poseEstimator.bodyParts[.leftWrist]?.location, poseEstimator.bodyParts[.leftElbow]?.location, poseEstimator.bodyParts[.leftShoulder]?.location, poseEstimator.bodyParts[.neck]?.location].compactMap { $0 }, size: size)
                     .stroke(lineWidth: 5.0)
-                    .fill(Color.green)
+                    .fill(.accent)
                 
                 // Root to nose
                 Skeleton(points: [poseEstimator.bodyParts[.root]?.location,
                                   poseEstimator.bodyParts[.neck]?.location,  poseEstimator.bodyParts[.nose]?.location].compactMap { $0 }, size: size)
                 .stroke(lineWidth: 5.0)
-                .fill(Color.green)
+                .fill(.accent)
             }
         }
     }

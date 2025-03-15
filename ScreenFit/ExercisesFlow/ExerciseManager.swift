@@ -10,12 +10,38 @@ import Vision
 
 @Observable
 public class ExerciseManager {
-    var exerciseTargets = [Exercise: Int]()
-    var selectedExercise: Exercise?
-    var exerciseReps = [Exercise: Int]()
+    var exerciseTargets: [Exercise: Int] = [
+        .squat: 10,
+        .pushup: 8,
+        .lunge: 12, // 6 per leg
+        .jumpingJack: 20,
+        .pullup: 4,
+        .crunch: 15,
+        .walking: 250
+    ]
+    var selectedExercise: Exercise = .squat
+    var exerciseReps = generateEmptyExerciseRepsDictionary()
     var wasInBottomPosition = false
     var resetScreenTime: (() -> Void)!
     var onFinishedExercise: (() -> Void)!
+    var highestTarget = 250
+    
+    var selectedExerciseTarget: Int {
+        exerciseTargets[selectedExercise]!
+    }
+    var selectedExerciseReps: Int {
+        exerciseReps[selectedExercise]!
+    }
+    
+    var currentProgress: Double {
+        Double(selectedExerciseReps) / Double(selectedExerciseTarget)
+    }
+    
+    static func generateEmptyExerciseRepsDictionary() -> [Exercise: Int] {
+        return Exercise.allCases.reduce(into: [Exercise: Int]()) { partialResult, exercise in
+            partialResult[exercise] = 0
+        }
+    }
     
     func checkForRepetition(bodyParts: [VNHumanBodyPoseObservation.JointName : VNRecognizedPoint]) {
         switch selectedExercise {

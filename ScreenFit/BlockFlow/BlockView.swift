@@ -59,4 +59,5 @@ struct BlockView: View {
 
 #Preview {
     BlockView()
+        .environment(ScreenTimeBlocker())
 }

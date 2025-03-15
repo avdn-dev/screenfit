@@ -73,5 +73,19 @@ struct ContentView: View {
 }
 
 #Preview {
+    let configuration = try! ModelConfiguration(
+        for: OnboardingVersion.self,
+        isStoredInMemoryOnly: true
+    )
+    
+    let container = try! ModelContainer(
+        for: OnboardingVersion.self,
+        configurations: configuration
+    )
+    
     ContentView()
+        .environment(PoseEstimator())
+        .environment(ScreenTimeBlocker())
+        .environment(PermissionsService())
+        .modelContainer(container)
 }

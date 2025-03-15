@@ -13,6 +13,8 @@ struct OnboardingOverlay: View {
     @State private var selectedView = UserDefaults.standard.integer(forKey: "selectedOnboardingView")
     @State private var lastOnboardingScreen = 3
     @State private var openedSettings = false
+    let points: [SIMD2<Float>] = MeshGradientGenerator.generatePoints()
+    @State var colors = MeshGradientGenerator.generateColors(color1: .purple, color2: .pink, color3: .orange)
     
     let dismissOnboardingView: () -> Void
     
@@ -22,14 +24,26 @@ struct OnboardingOverlay: View {
     }
     
     var body: some View {
-        TabView(selection: $selectedView) {
-            OnboardingView(item: OnboardingItem(tag: 0, image: "", title: "ScreenFit", body: "ScreenFit allows you to set screen time limits, and forces you to exercise to unblock apps that have reached their limits.", buttonLabel: "Get started"), onboardingButtonPressed: { withAnimation { selectedView += 1} }).tag(0)
-            
-            OnboardingView(item: OnboardingItem(tag: 1, image: "", title: "Screen Time", body: "ScreenFit requires the Screen Time API to set and monitor screen time limits.", buttonLabel: "Grant permissions"), onboardingButtonPressed: requestScreenTimePermission).tag(1)
-            
-            OnboardingView(item: OnboardingItem(tag: 2, image: "", title: "Notifications", body: "ScreenFit uses a notification for quick access unblocking an app that has reached its screen time limit.", buttonLabel: "Grant permissions"), onboardingButtonPressed: requestNotificationPermission).tag(2)
-            
-            OnboardingView(item: OnboardingItem(tag: 3, image: "", title: "Ready to Go!", body: "ScreenFit has defaults for screen time limits and exercise tracking that you can configure further if you'd like.", buttonLabel: "Begin"), onboardingButtonPressed: dismissOnboarding).tag(3)
+        GeometryReader { geometry in
+            ZStack {
+                MeshGradient(width: 3,
+                             height: 3,
+                             points: points,
+                             colors: colors)
+                .ignoresSafeArea()
+                .frame(maxHeight: geometry.size.height / 2)
+                .offset(y: -geometry.size.height / 4)
+                
+                TabView(selection: $selectedView) {
+                    OnboardingView(item: OnboardingItem(tag: 0, image: "", title: "ScreenFit", body: "ScreenFit allows you to set screen time limits, and forces you to exercise to unblock apps that have reached their limits.", buttonLabel: "Get started"), onboardingButtonPressed: { withAnimation { selectedView += 1} }).tag(0)
+                    
+                    OnboardingView(item: OnboardingItem(tag: 1, image: "", title: "Screen Time", body: "ScreenFit requires the Screen Time API to set and monitor screen time limits.", buttonLabel: "Grant permissions"), onboardingButtonPressed: requestScreenTimePermission).tag(1)
+                    
+                    OnboardingView(item: OnboardingItem(tag: 2, image: "", title: "Notifications", body: "ScreenFit uses a notification for quick access unblocking an app that has reached its screen time limit.", buttonLabel: "Grant permissions"), onboardingButtonPressed: requestNotificationPermission).tag(2)
+                    
+                    OnboardingView(item: OnboardingItem(tag: 3, image: "", title: "Ready to Go!", body: "ScreenFit has defaults for screen time limits and exercise tracking that you can configure further if you'd like.", buttonLabel: "Begin"), onboardingButtonPressed: dismissOnboarding).tag(3)
+                }
+            }
         }
         .tabViewStyle(.page)
         .indexViewStyle(.page(backgroundDisplayMode: .always))
@@ -37,6 +51,15 @@ struct OnboardingOverlay: View {
             if openedSettings {
                 UserDefaults.standard.set(newValue, forKey: "selectedOnboardingView")
                 openedSettings = false
+            }
+        }
+        .onAppear(perform: startMeshGradientAnimation)
+    }
+    
+    private func startMeshGradientAnimation() {
+        Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
+            withAnimation(.easeInOut(duration: 2.0)) {
+                colors = MeshGradientGenerator.generateColors(color1: .purple, color2: .pink, color3: .orange)
             }
         }
     }
@@ -70,4 +93,5 @@ struct OnboardingOverlay: View {
 
 #Preview {
     OnboardingOverlay(dismissOnboardingView: {})
+        .environment(PermissionsService())
 }

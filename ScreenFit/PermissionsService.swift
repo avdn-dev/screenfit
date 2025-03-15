@@ -14,7 +14,7 @@ class PermissionsService {
     let familyControlsCenter = AuthorizationCenter.shared
     let notificationsCenter = UNUserNotificationCenter.current()
     
-    func requestScreenTimePermission(openedSettingsCompletionHandler: @Sendable @escaping (Bool) -> Void = { _ in }) {
+    func requestScreenTimePermission(openedSettingsCompletionHandler: @MainActor @Sendable @escaping (Bool) -> Void = { _ in }) {
         switch familyControlsCenter.authorizationStatus {
         case .notDetermined:
             Task {
@@ -39,7 +39,7 @@ class PermissionsService {
         }
     }
     
-    func requestNotificationPermission(openedSettingsCompletionHandler: @Sendable @escaping (Bool) -> Void = { _ in }) {
+    func requestNotificationPermission(openedSettingsCompletionHandler: @MainActor @Sendable @escaping (Bool) -> Void = { _ in }) {
         Task {
             do {
                 if try await notificationsCenter.requestAuthorization(options: [.alert, .sound, .badge]) == true {

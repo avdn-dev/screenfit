@@ -18,10 +18,15 @@ struct ExercisesView: View {
                     ForEach(Exercise.allCases, id: \.self) { exercise in
                         NavigationLink {
                             switch exercise {
-                            case .squat: PoseEstimatedExerciseView(exercise: exercise)
+                            case .walking: PoseEstimatedExerciseView(exercise: exercise)
+                            default : PoseEstimatedExerciseView(exercise: exercise)
                             }
                         } label: {
-                            Text(exercise.rawValue)
+                            HStack {
+                                exercise.image
+                                
+                                Text(exercise.rawValue)
+                            }
                         }
                     }
                 }
@@ -44,5 +49,6 @@ struct ExercisesView: View {
 
 #Preview {
     ExercisesView()
+        .environment(PoseEstimator())
         .preferredColorScheme(.dark)
 }

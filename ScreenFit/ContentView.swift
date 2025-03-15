@@ -58,7 +58,6 @@ struct ContentView: View {
     }
     
     private func shouldShowOnboarding() -> Bool {
-        return false
         // Onboarding versions stored in descending order
         if let onboarding = onboardingVersion.first,
            currentOnboardingVersionNumer == onboarding.versionNumber {
@@ -75,7 +74,7 @@ struct ContentView: View {
 }
 
 #Preview {
-    let configuration = try! ModelConfiguration(
+    let configuration = ModelConfiguration(
         for: OnboardingVersion.self,
         isStoredInMemoryOnly: true
     )

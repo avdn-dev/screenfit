@@ -23,6 +23,7 @@ struct ContentView: View {
     }
     
     var body: some View {
+        
         VStack {
             Button("Select apps") {
                 familyActivityPickerIsPresented = true
@@ -44,20 +45,8 @@ struct ContentView: View {
             }
         }
         .sheet(isPresented: $isShowingScreenTimeResetSheet) {
-            VStack {
-                ZStack {
-                    GeometryReader { geo in
-                        CameraViewWrapper(poseEstimator: poseEstimator)
-                        SkeletonView(poseEstimator: poseEstimator, size: geo.size)
-                    }
-                }.frame(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.width * 1920 / 1080, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                HStack {
-                    Text("Squat counter:")
-                        .font(.title)
-                    Text(String(poseEstimator.squatCount))
-                        .font(.title)
-                }
-            }
+            ExercisesView()
+                .environment(poseEstimator)
         }
     }
     

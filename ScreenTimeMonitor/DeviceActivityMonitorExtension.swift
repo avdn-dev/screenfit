@@ -28,8 +28,15 @@ class DeviceActivityMonitorExtension: DeviceActivityMonitor {
         store.shield.webDomainCategories = categories.isEmpty ? nil : .specific(categories)
         
         triggerNotification()
-        UserDefaults(suiteName: "group.CGC-Studio.ScreenFit.shared-data")?.set(true, forKey: "isShowingScreenTimeResetSheet")
-        UserDefaults(suiteName: "group.CGC-Studio.ScreenFit.shared-data")?.set(true, forKey: "isScreentimeBlocked")
+        
+        // Ensure that something has actually been blocked
+        if !applications.isEmpty || !webDomains.isEmpty || !categories.isEmpty {
+            // eventDidReachThreshold triggered when app is initially installed, causing incorrect state if these are not within the conditional
+            UserDefaults(suiteName: "group.CGC-Studio.ScreenFit.shared-data")?.set(true, forKey: "isScreentimeBlocked")
+            UserDefaults(suiteName: "group.CGC-Studio.ScreenFit.shared-data")?.set(true, forKey: "isShowingScreenTimeResetSheet")
+        }
+        
+        
     }
     
     private func triggerNotification() {

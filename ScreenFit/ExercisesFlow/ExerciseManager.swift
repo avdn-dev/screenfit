@@ -24,6 +24,7 @@ public class ExerciseManager {
     var wasInBottomPosition = false
     var resetScreenTime: (() -> Void)!
     var onFinishedExercise: (() -> Void)!
+    var resetMonitor: (() -> Void)!
     var highestTarget = 250
     
     var selectedExerciseTarget: Int {
@@ -67,6 +68,7 @@ public class ExerciseManager {
                     resetScreenTime()
                     exerciseReps[.squat] = 0
                     onFinishedExercise()
+                    resetMonitor()
                 }
                 
                 self.wasInBottomPosition = false

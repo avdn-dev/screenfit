@@ -46,6 +46,7 @@ struct ScreenFitApp: App {
         _screenTimeMonitor = State(initialValue: ScreenTimeMonitor(model: screenTimeModel))
         
         exerciseManager.resetScreenTime = screenTimeBlocker.resetScreenTimeLimit
+        exerciseManager.resetMonitor = screenTimeMonitor.startDailyMonitoring
         
         screenTimeMonitor.startDailyMonitoring()
     }

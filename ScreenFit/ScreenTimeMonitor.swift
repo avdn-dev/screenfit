@@ -76,6 +76,10 @@ class ScreenTimeMonitor {
     }
     
     func startDailyMonitoring() {
+        guard let limitName else {
+            return
+        }
+        
         center.stopMonitoring()
         
         let event = DeviceActivityEvent(

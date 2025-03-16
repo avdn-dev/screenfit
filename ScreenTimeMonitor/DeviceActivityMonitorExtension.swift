@@ -42,11 +42,11 @@ class DeviceActivityMonitorExtension: DeviceActivityMonitor {
     private func triggerNotification() {
         let content = UNMutableNotificationContent()
         content.title = "App locked"
-        content.body = "Screen time limit reached. Press or open ScreenFit to unlock app."
+        content.body = "Screen time limit reached. Press to unlock app."
         content.sound = UNNotificationSound.default
         
         // Trigger with small delay
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 2, repeats: false)
         let request = UNNotificationRequest(identifier: "Notification", content: content, trigger: trigger)
         
         UNUserNotificationCenter.current().add(request) { error in

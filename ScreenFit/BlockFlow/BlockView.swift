@@ -10,6 +10,7 @@ import SwiftUI
 struct BlockView: View {
     @Environment(ScreenTimeMonitor.self) var monitor
     @AppStorage("isShowingScreenTimeResetSheet", store: UserDefaults(suiteName: "group.CGC-Studio.ScreenFit.shared-data")) var isShowingScreenTimeResetSheet: Bool = false
+    @AppStorage("isScreentimeBlocked", store: UserDefaults(suiteName: "group.CGC-Studio.ScreenFit.shared-data")) var isScreentimeBlocked: Bool = false
     
     var body: some View {
         NavigationStackWithMeshGradientBackground(navigationTitle: "Limit") {
@@ -17,8 +18,10 @@ struct BlockView: View {
                 if monitor.limitName == nil {
                     EmptyBlockView()
                 } else {
-                    Button("Reset screen time limit") {
-                        isShowingScreenTimeResetSheet = true
+                    if isScreentimeBlocked {
+                        Button("Reset screen time limit") {
+                            isShowingScreenTimeResetSheet = true
+                        }
                     }
                 }
             }

@@ -29,6 +29,7 @@ class DeviceActivityMonitorExtension: DeviceActivityMonitor {
         
         triggerNotification()
         UserDefaults(suiteName: "group.CGC-Studio.ScreenFit.shared-data")?.set(true, forKey: "isShowingScreenTimeResetSheet")
+        UserDefaults(suiteName: "group.CGC-Studio.ScreenFit.shared-data")?.set(true, forKey: "isScreentimeBlocked")
     }
     
     private func triggerNotification() {

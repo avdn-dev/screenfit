@@ -41,7 +41,7 @@ struct BlockView: View {
                         .buttonStyle(.borderedProminent)
                         .buttonBorderShape(.roundedRectangle)
                         .controlSize(.extraLarge)
-                        .disabled(isScreentimeBlocked)
+                        .disabled(!isScreentimeBlocked)
                         
                         Spacer()
                     }

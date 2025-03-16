@@ -112,8 +112,8 @@ struct ActivityEditView: View {
         VStack(alignment: .center) {
             Button("Save limit") {
                 monitor.setTimeLimit(to: DateComponents(hour: timeLimitHours, minute: timeLimitMinutes, second: timeLimitSeconds))
-                monitor.startDailyMonitoring()
                 monitor.limitName = limitName
+                monitor.startDailyMonitoring()
                 dismiss()
                 // TODO: Add save of notification settings
             }

@@ -76,7 +76,7 @@ class ScreenTimeMonitor {
     }
     
     func startDailyMonitoring() {
-        guard let limitName else {
+        guard limitName != nil else {
             return
         }
         

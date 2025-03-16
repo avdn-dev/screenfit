@@ -9,9 +9,10 @@ import SwiftUI
 
 struct ActivityDetailsView: View {
     @Environment(ScreenTimeMonitor.self) var monitor
+    @Environment(\.dismiss) private var dismiss
     
     var body: some View {
-        NavigationStackWithMeshGradientBackground(navigationTitle: monitor.limitName!) {
+        NavigationStackWithMeshGradientBackground(navigationTitle: monitor.limitName ?? "") {
             Form {
                 ActivityEditView()
             }
@@ -20,6 +21,7 @@ struct ActivityDetailsView: View {
             .toolbar {
                 ToolbarItem(placement: .destructiveAction) {
                     Button {
+                        dismiss()
                         monitor.limitName = nil
                         monitor.startDailyMonitoring()
                     } label: {

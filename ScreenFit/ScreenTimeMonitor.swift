@@ -13,6 +13,7 @@ extension DeviceActivityName {
     static let daily = Self ("daily")
 }
 
+// TODO: Handle state much better...
 @Observable
 class ScreenTimeMonitor {
     let dailySchedule = DeviceActivitySchedule(intervalStart: DateComponents(hour: 0, minute: 0), intervalEnd: DateComponents(hour: 23, minute: 59, second: 59), repeats: true)
@@ -20,33 +21,58 @@ class ScreenTimeMonitor {
     let activity = DeviceActivityName("ScreenTime")
     let eventName = DeviceActivityEvent.Name("Limit")
     let model: ScreenTimeSelectAppsModel
-    // Fix to get state from persistent store
-    var timeLimit: DateComponents = .init(hour: 23)
+    var timeLimit: DateComponents = .init(second: 1) {
+        didSet {
+            saveTimeLimit(timeLimit)
+        }
+    }
     var limitName: String? {
         didSet {
             saveLimitName(limitName)
         }
     }
     
-    private let userDefaultsKey = "LimitName"
-    
-    private func saveLimitName(_ name: String?) {
-        guard let name else { return }
-        let defaults = UserDefaults(suiteName: "group.CGC-Studio.ScreenFit.shared-data")
-
-        defaults?.set(name, forKey: userDefaultsKey)
-    }
-    
-    private func getSavedLimitName() -> String? {
-        let defaults = UserDefaults(suiteName: "group.CGC-Studio.ScreenFit.shared-data")
-
-        return defaults?.string(forKey: userDefaultsKey)
-    }
+    private let userDefaultsNameKey = "LimitName"
+    private let userDefaultsTimeHourKey = "TimeLimitHour"
+    private let userDefaultsTimeMinuteKey = "TimeLimitMinute"
+    private let userDefaultsTimeSecondKey = "TimeLimitSecond"
     
     init(model: ScreenTimeSelectAppsModel) {
         self.model = model
         
         limitName = getSavedLimitName()
+        timeLimit = getSavedTimeLimit()
+    }
+    
+    private func saveLimitName(_ name: String?) {
+        guard let name else { return }
+        let defaults = UserDefaults(suiteName: "group.CGC-Studio.ScreenFit.shared-data")
+
+        defaults?.set(name, forKey: userDefaultsNameKey)
+    }
+    
+    private func getSavedLimitName() -> String? {
+        let defaults = UserDefaults(suiteName: "group.CGC-Studio.ScreenFit.shared-data")
+
+        return defaults?.string(forKey: userDefaultsNameKey)
+    }
+    
+    private func saveTimeLimit(_ timeLimit: DateComponents) {
+        let defaults = UserDefaults(suiteName: "group.CGC-Studio.ScreenFit.shared-data")
+
+        defaults?.set(timeLimit.hour ?? 0, forKey: userDefaultsTimeHourKey)
+        defaults?.set(timeLimit.minute ?? 0, forKey: userDefaultsTimeMinuteKey)
+        defaults?.set(timeLimit.second ?? 0, forKey: userDefaultsTimeSecondKey)
+    }
+    
+    private func getSavedTimeLimit() -> DateComponents {
+        let defaults = UserDefaults(suiteName: "group.CGC-Studio.ScreenFit.shared-data")
+        
+        return DateComponents(
+            hour: defaults?.integer(forKey: userDefaultsTimeHourKey),
+            minute: defaults?.integer(forKey: userDefaultsTimeMinuteKey),
+            second: defaults?.integer(forKey: userDefaultsTimeSecondKey)
+        )
     }
     
     func startDailyMonitoring() {

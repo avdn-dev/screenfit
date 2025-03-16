@@ -16,7 +16,8 @@ struct ScreenFitApp: App {
     @State var screenTimeBlocker = ScreenTimeBlocker()
     @State var meshGradientModel = MeshGradientModel()
     @State var exerciseManager: ExerciseManager
-    
+    @State var screenTimeModel: ScreenTimeSelectAppsModel
+    @State var screenTimeMonitor: ScreenTimeMonitor
     let container: ModelContainer
     
     init() {
@@ -39,7 +40,14 @@ struct ScreenFitApp: App {
         let exerciseManager = ExerciseManager()
         _exerciseManager = State(initialValue: exerciseManager)
         _poseEstimator = State(initialValue: PoseEstimator(exerciseManager: exerciseManager))
+        
+        let screenTimeModel = ScreenTimeSelectAppsModel()
+        _screenTimeModel = State(initialValue: screenTimeModel)
+        _screenTimeMonitor = State(initialValue: ScreenTimeMonitor(model: screenTimeModel))
+        
         exerciseManager.resetScreenTime = screenTimeBlocker.resetScreenTimeLimit
+        
+        screenTimeMonitor.startDailyMonitoring()
     }
     
     var body: some Scene {
@@ -50,6 +58,8 @@ struct ScreenFitApp: App {
                 .environment(screenTimeBlocker)
                 .environment(meshGradientModel)
                 .environment(exerciseManager)
+                .environment(screenTimeModel)
+                .environment(screenTimeMonitor)
                 .modelContainer(container)
                 .preferredColorScheme(.dark)
         }

@@ -8,32 +8,18 @@
 import SwiftUI
 
 struct BlockView: View {
-    @Environment(ScreenTimeBlocker.self) var screenTimeBlocker
-    
-    @State var model = ScreenTimeSelectAppsModel()
-    @State var familyActivityPickerIsPresented: Bool = false
+    @Environment(ScreenTimeMonitor.self) var monitor
     @AppStorage("isShowingScreenTimeResetSheet", store: UserDefaults(suiteName: "group.CGC-Studio.ScreenFit.shared-data")) var isShowingScreenTimeResetSheet: Bool = false
     
-    let screenTimeMonitor = ScreenTimeMonitor()
-    
     var body: some View {
-        NavigationStackWithMeshGradientBackground(navigationTitle: "Block") {
+        NavigationStackWithMeshGradientBackground(navigationTitle: "Limit") {
             VStack {
-                EmptyBlockView()
-                Button("Select apps") {
-                    familyActivityPickerIsPresented = true
-                }
-                .familyActivityPicker(isPresented: $familyActivityPickerIsPresented, selection: $model.activitySelection)
-                Button("Start monitoring") {
-                    do {
-                        try screenTimeMonitor.startDailyMonitoring(of: model.activitySelection, timeLimit: DateComponents(second: 2))
-                    } catch {
-                        print("Failed to start daily device activity monitoring: \(error)")
+                if monitor.limitName == nil {
+                    EmptyBlockView()
+                } else {
+                    Button("Reset screen time limit") {
+                        isShowingScreenTimeResetSheet = true
                     }
-                }
-                Button("Stop monitoring", action: screenTimeMonitor.stopDailyMonitoring)
-                Button("Reset screen time limit") {
-                    isShowingScreenTimeResetSheet = true
                 }
             }
         }
@@ -42,6 +28,6 @@ struct BlockView: View {
 
 #Preview {
     BlockView()
-        .environment(ScreenTimeBlocker())
+        .environment(MeshGradientModel())
         .preferredColorScheme(.dark)
 }

@@ -27,7 +27,7 @@ struct ContentView: View {
                 // TODO: Adopt UIKit to allow the label icons to change with state
                 BlockView()
                     .tabItem {
-                        Label("Block", systemImage: "lock.iphone")
+                        Label("Limit", systemImage: "lock.iphone")
                     }
                 StatsView()
                     .tabItem {

@@ -14,14 +14,17 @@ class ScreenTimeSelectAppsModel {
     private let decoder = PropertyListDecoder()
     private let userDefaultsKey = "ScreenTimeSelection"
     
-    var activitySelection: FamilyActivitySelection! {
+    var activitySelection: FamilyActivitySelection {
         didSet {
             saveSelection(activitySelection)
         }
     }
     
     init() {
-        activitySelection = getSavedSelection() ?? FamilyActivitySelection()
+        activitySelection = FamilyActivitySelection()
+        if let savedSelection = getSavedSelection() {
+            activitySelection = savedSelection
+        }
     }
     
     private func saveSelection(_ selection: FamilyActivitySelection) {

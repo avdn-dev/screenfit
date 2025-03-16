@@ -13,23 +13,59 @@ extension DeviceActivityName {
     static let daily = Self ("daily")
 }
 
-struct ScreenTimeMonitor {
+@Observable
+class ScreenTimeMonitor {
     let dailySchedule = DeviceActivitySchedule(intervalStart: DateComponents(hour: 0, minute: 0), intervalEnd: DateComponents(hour: 23, minute: 59, second: 59), repeats: true)
     let center = DeviceActivityCenter()
     let activity = DeviceActivityName("ScreenTime")
     let eventName = DeviceActivityEvent.Name("Limit")
-    
-    func stopDailyMonitoring() {
-        center.stopMonitoring()
+    let model: ScreenTimeSelectAppsModel
+    // Fix to get state from persistent store
+    var timeLimit: DateComponents = .init(hour: 23)
+    var limitName: String? {
+        didSet {
+            saveLimitName(limitName)
+        }
     }
     
-    func startDailyMonitoring(of selection: FamilyActivitySelection, timeLimit: DateComponents) throws {
+    private let userDefaultsKey = "LimitName"
+    
+    private func saveLimitName(_ name: String?) {
+        guard let name else { return }
+        let defaults = UserDefaults(suiteName: "group.CGC-Studio.ScreenFit.shared-data")
+
+        defaults?.set(name, forKey: userDefaultsKey)
+    }
+    
+    private func getSavedLimitName() -> String? {
+        let defaults = UserDefaults(suiteName: "group.CGC-Studio.ScreenFit.shared-data")
+
+        return defaults?.string(forKey: userDefaultsKey)
+    }
+    
+    init(model: ScreenTimeSelectAppsModel) {
+        self.model = model
+        
+        limitName = getSavedLimitName()
+    }
+    
+    func startDailyMonitoring() {
+        center.stopMonitoring()
+        
         let event = DeviceActivityEvent(
-            applications: selection.applicationTokens,
-            categories: selection.categoryTokens,
-            webDomains: selection.webDomainTokens,
+            applications: model.activitySelection.applicationTokens,
+            categories: model.activitySelection.categoryTokens,
+            webDomains: model.activitySelection.webDomainTokens,
             threshold: timeLimit
         )
-        try center.startMonitoring(activity, during: dailySchedule, events: [eventName: event])
+        do {
+            try center.startMonitoring(activity, during: dailySchedule, events: [eventName: event])
+        } catch {
+            print("Failed to start monitoring: \(error)")
+        }
+    }
+    
+    func setTimeLimit(to timeLimit: DateComponents) {
+        self.timeLimit = timeLimit
     }
 }

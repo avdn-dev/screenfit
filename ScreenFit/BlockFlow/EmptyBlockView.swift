@@ -9,21 +9,27 @@ import SwiftUI
 
 struct EmptyBlockView: View {
     var body: some View {
-        ContentUnavailableView {
-            Label {
-                Text("No screen time limits set")
-            } icon: {
-                Image(.lockIphoneBadgePlus)
+        ZStack {
+            ContentUnavailableView {
+                Label {
+                    Text("No screen time limits set")
+                } icon: {
+                    Image(.lockIphoneBadgePlus)
+                }
+            } description: {
+                Text("Add a new screen time limit to turn screen time into exercise.")
             }
-        } description: {
-            // Insert copy here
-            Text("Add a new screen time limit to turn screen time into exercise.")
-        } actions: {
-            Button("Add new block") {
-                
+            
+            NavigationLink {
+                ActivityPickerView()
+            } label: {
+                Text("Add limit")
+                    .bold()
             }
             .buttonStyle(.borderedProminent)
             .buttonBorderShape(.roundedRectangle)
+            .controlSize(.extraLarge)
+            .offset(y: 100)
         }
     }
 }
